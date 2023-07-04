@@ -42,7 +42,14 @@ import snowflake.connector
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
+
 my_cur.execute("SELECT * from fruit_load_list")
 my_data_rows = my_cur.fetchall()
 streamlit.header("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
+
+# User add fruit option box
+streamlit.header("Add a fruits of your choice to the list!")
+
+fruit_to_add = streamlit.text_input('What fruit would you like to add?','Kiwi')
+my_cur.execute("insert into fruit_load_list values(fruit_to_add)")
